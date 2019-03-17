@@ -25,7 +25,7 @@ pStr = Text.ParserCombinators.Parsec.Char.string
 pBinOpF :: (String, (Formula -> Formula -> Formula)) -> Parser Formula 
 pBinOpF (s, c) = pFormula >>= \f1 -> pStr s >> pFormula >>= \f2 -> return (c f1 f2) 
 
-pBinOpE :: (String, (Expr -> Expr -> Formula)) -> Parser Formula 
+pBinOpE :: (String, (Expr -> Expr -> Formula)) -> Parser Formula
 pBinOpE (s, c) = pExpr >>= \e1 -> pStr s >> pExpr >>= \e2 -> return (c e1 e2) 
 
 pUnOpF  :: (String, Formula -> Formula) -> Parser Formula
@@ -34,7 +34,7 @@ pUnOpF (s, c)  = pStr s >> pFormula >>= \f -> return (c f)
 pUnOpE  :: (String, Expr -> Formula) -> Parser Formula
 pUnOpE (s, c)  = pStr s >> pExpr >>= \e -> return (c e) 
 
-pZeroOp :: (String, Formula) -> Parser Formula 
+pZeroOp :: (String, Formula) -> Parser Formula
 pZeroOp (s, f) = pStr s >> return f
 
 pFormula :: Parser Formula 

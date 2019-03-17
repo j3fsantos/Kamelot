@@ -60,3 +60,7 @@ reserved   = Token.reserved gilLexer
 
 reservedOp :: String -> Parser () 
 reservedOp = Token.reservedOp gilLexer 
+
+parens     :: Parser a -> Parser a 
+parens     = Token.parens gilLexer
+

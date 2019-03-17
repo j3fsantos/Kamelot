@@ -26,4 +26,4 @@ pString = char '"' >> (many $ noneOf "\"") >>= \s -> char '"' >> return (String 
 pSymbol :: Parser Literal
 pSymbol = char '@' >> (many $ noneOf "\"") >>= \s -> return (Symbol s)
 
-pLiteral = pBool <|> pInt <|> pReal <|> pString <|> pSymbol 
+literal = pBool <|> pInt <|> pReal <|> pString <|> pSymbol 

@@ -4,6 +4,7 @@ import Syntax.Pred
 import Syntax.Asrt
 --
 import Entailment.Unifier
+import Entailment.USAsrt
 
 data UP a b = 
     Leaf a b 
@@ -11,7 +12,7 @@ data UP a b =
 
 data UPPred a b = UPPred { 
   pred :: Pred a,
-  up   :: UP (SAsrt a) b   
+  up   :: UP (USAsrt a) b   
 }
 
 up_unify :: (Unifier u b) => ((UP a b -> u b) -> a -> u c) -> (() -> b) -> (UP a b) -> u b 

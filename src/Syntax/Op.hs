@@ -25,7 +25,6 @@ nop_dom_rng nop =
     EList -> (TopT, TType ListT) 
     ESet  -> (TopT, TType ListT) 
 
-
 data UInvInfo e = 
     UInv  (e -> e)
   | NUInv  

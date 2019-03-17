@@ -9,7 +9,11 @@ import qualified Text.ParserCombinators.Parsec.Token as Token
 
 import Syntax.Expr
 import Syntax.Op
+
 import Syntax.Parsing.Tokenizer
+import Syntax.Parsing.Var 
+import Syntax.Parsing.LVar 
+import Syntax.Parsing.Literal
 
 expr = buildExpressionParser eOperators eTerm
          <?> "expression"
@@ -17,16 +21,16 @@ expr = buildExpressionParser eOperators eTerm
 eOperators = 
   [
     [  
-      Infix (reservedOp "*" >> return (BinOp MultI (invInfo MultI))) AssocLeft, 
-      Infix (reservedOp "/" >> return (BinOp DivI  (invInfo DivI)))  AssocLeft
+      Infix (reservedOp "*" >> return (BinOp MultI)) AssocLeft, 
+      Infix (reservedOp "/" >> return (BinOp DivI))  AssocLeft
     ],
     [
-      Infix (reservedOp "*" >> return (BinOp MultI (invInfo MultI))) AssocLeft, 
-      Infix (reservedOp "/" >> return (BinOp DivI  (invInfo DivI)))  AssocLeft
+      Infix (reservedOp "*" >> return (BinOp MultI)) AssocLeft, 
+      Infix (reservedOp "/" >> return (BinOp DivI))  AssocLeft
     ]
   ]
 
 eTerm =  parens expr
-     <|> variable
-     <|> lVariable
-     <|> literal
+     <|> (variable   >>= \x -> return $ Var x)
+     <|> (lVariable  >>= \x -> return $ LVar x)
+     <|> (literal    >>= \l -> return $ Lit l)

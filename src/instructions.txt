@@ -1,0 +1,2 @@
+-- building: stack build
+-- running:  stack exec -- Kamelot-exe --file <argument>

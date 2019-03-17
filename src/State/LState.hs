@@ -7,6 +7,7 @@ import Syntax.Var
 import Syntax.Literal 
 import Syntax.Expr 
 import Syntax.Asrt
+import Syntax.PName
 -- 
 import Entailment.Result
 

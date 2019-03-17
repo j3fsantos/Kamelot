@@ -3,26 +3,25 @@ module Syntax.Formula where
   import Syntax.Var
   import Syntax.TType
 
-  type FBindings  = [ (Var, TType) ] 
-  type FTriggers  = [ Expr ]
+  type FBindings = [ (Var, TType) ] 
+  type FTriggers = [ Expr ]
 
-  data Formula a = 
-    And Formula Formula 
-    | Or Formula Formula 
+  data Formula = 
+      And Formula Formula 
+    | Or  Formula Formula 
     | Not Formula 
     --
-    | Eq      (Expr a) (Expr a)
-    | DefEq   (Expr a) (Expr a)
+    | Eq      Expr Expr 
     -- 
-    | ILess   (Expr a) (Expr a) 
-    | ILessEq (Expr a) (Expr a) 
+    | ILess   Expr Expr  
+    | ILessEq Expr Expr  
     -- 
-    | StrLess (Expr a) (Expr a) 
+    | StrLess Expr Expr  
     -- 
-    | SetMem  (Expr a) (Expr a) 
-    | SetSub  (Expr a) (Expr a) 
+    | SetMem  Expr Expr 
+    | SetSub  Expr Expr  
     -- 
-    | ForAll FBindings FTriggers Formula 
+    | ForAll FBindings FTriggers Formula  
     -- 
     | FTrue 
     | FFalse 

@@ -344,17 +344,17 @@ encodeExpr :: (EncodingState st) => Expr -> EncodingM st AST
 --
 encodeExpr e =
   case e of
-    PVar _ -> error "DEATH. encodeExpr"
+    Var _  -> error "DEATH. encodeExpr"
 
     LVar x -> encodeVar x 
 
     Lit l  -> encodeLit l 
     
-    UnOp op _ e -> fe e >>= \v -> encodeUnop op v 
+    UnOp op e -> fe e >>= \v -> encodeUnop op v 
     
-    BinOp op _ e1 e2 -> fe e1 >>= \v1 -> fe e2 >>= \v2 -> encodeBinop op v1 v2
+    BinOp op e1 e2 -> fe e1 >>= \v1 -> fe e2 >>= \v2 -> encodeBinop op v1 v2
 
-    NOp op _ es -> sequence (map fe es) >>= \vs -> encodeNop op vs 
+    NOp op es -> sequence (map fe es) >>= \vs -> encodeNop op vs 
 
     where fe = encodeExpr
 
@@ -373,7 +373,6 @@ encodeFormula f =
     Not f             -> ef f  >>= \f'  -> lift' (mkNot f')
     -- 
     Eq e1 e2          -> ee2 e1 e2 >>= \(e1', e2') -> lift' (mkEq e1' e2')
-    DefEq e1 e2       -> ee2 e1 e2 >>= \(e1', e2') -> lift' (mkEq e1' e2')
     ILess e1 e2       -> ee2 e1 e2 >>= \(e1', e2') -> 
                           mk_isel e1' >>= \i1 -> mk_isel e2' >>= \i2 -> 
                             lift' (mkLt i1 i2)
