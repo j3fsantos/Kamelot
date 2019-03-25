@@ -2,8 +2,8 @@ module Syntax.Op where
 
 import Syntax.TType 
 
-data UnOp   = NegI deriving (Show)
-data BinOp  = PlusI | MinusI | MultI | DivI deriving (Show)
+data UnOp   = NegI  | Not deriving (Show)
+data BinOp  = PlusI | MinusI | MultI | DivI | EEq deriving (Show)
 data NOp    = EList | ESet deriving (Show)
 
 uop_dom_rng :: UnOp -> (PType, PType)
@@ -18,6 +18,7 @@ bop_dom_rng bop =
     MinusI -> ((TType IntT, TType IntT), TType IntT)
     MultI  -> ((TType IntT, TType IntT), TType IntT)
     DivI   -> ((TType IntT, TType IntT), TType IntT) 
+    EEq    -> ((TopT, TopT), TType BoolT)
 
 nop_dom_rng :: NOp -> (PType, PType)
 nop_dom_rng nop = 

@@ -368,9 +368,9 @@ encodeGamma vts =
 encodeFormula :: (EncodingState st) => Formula -> EncodingM st AST 
 encodeFormula f =
   case f of 
-    And f1 f2         -> ef2 f1 f2 >>= \(f1', f2') -> lift' (mkAnd [ f1', f2' ])
-    Or  f1 f2         -> ef2 f1 f2 >>= \(f1', f2') -> lift' (mkOr  [ f1', f2' ])
-    Not f             -> ef f  >>= \f'  -> lift' (mkNot f')
+    And f1 f2             -> ef2 f1 f2 >>= \(f1', f2') -> lift' (mkAnd [ f1', f2' ])
+    Or  f1 f2             -> ef2 f1 f2 >>= \(f1', f2') -> lift' (mkOr  [ f1', f2' ])
+    Syntax.Formula.Not f  -> ef f  >>= \f'  -> lift' (mkNot f')
     -- 
     Eq e1 e2          -> ee2 e1 e2 >>= \(e1', e2') -> lift' (mkEq e1' e2')
     ILess e1 e2       -> ee2 e1 e2 >>= \(e1', e2') -> 

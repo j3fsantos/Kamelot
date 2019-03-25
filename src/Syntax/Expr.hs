@@ -42,6 +42,7 @@ bInvInfo PlusI  = LeftRightInv (\res r -> BinOp MinusI res r) (\res l -> BinOp M
 bInvInfo MinusI = LeftRightInv (\res r -> BinOp PlusI res r) (\res l -> BinOp MinusI l res)
 bInvInfo MultI  = NBInv -- 0 issue 
 bInvInfo DivI   = LeftRightInv (\res r -> BinOp MultI res r) (\res l -> BinOp DivI l res)
+bInvInfo EEq    = NBInv -- equality is not reversible - use def eq for that 
 
 nInvInfo :: NOp -> NInvInfo Expr  
 nInvInfo EList = error "bananas!!!"

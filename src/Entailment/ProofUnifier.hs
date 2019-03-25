@@ -40,7 +40,7 @@ type ExprUnifier st sub v = ReaderT (st, v) (StateT sub (ErrorT String Identity)
 
 from_uexpr = uexpr_to_expr
 
-expr_unify :: (Val v, LState st a, Subst sub) => UExpr  -> ExprUnifier (st v) (sub v) v [ (Expr, v) ] 
+expr_unify :: (Val v, LState st sto a, Subst sub) => UExpr  -> ExprUnifier (st v) (sub v) v [ (Expr, v) ] 
 expr_unify (UVar x) = 
   ask >>= \(s, v) -> 
     lift (Control.Monad.State.get) >>= \sub -> 
@@ -118,7 +118,7 @@ expr_unify (UNOp op ii es) =
           --
     NNInv -> ask >>= \(_, v) -> return [ (NOp op (map from_uexpr es), v) ]  
 
-expr_unify_lst :: (Val v, LState st a, Subst sub) => [ UExpr ] -> ExprUnifier (st v) (sub v) [ v ] [ (Expr, v) ] 
+expr_unify_lst :: (Val v, LState st sto a, Subst sub) => [ UExpr ] -> ExprUnifier (st v) (sub v) [ v ] [ (Expr, v) ] 
 expr_unify_lst es = 
   ReaderT $ \(s, vs) -> 
     let ues  = map (\e -> let (ReaderT ue) = expr_unify e in ue) es in 
@@ -150,13 +150,13 @@ type UPUnificationFunction st sub v a = UP (USAsrt a) LeafAnnotation -> FProofUn
 run_proof_unifier :: FProofUnifier st sub v a -> st v -> sub v -> Result (a, (st v, sub v)) 
 run_proof_unifier pu st sub = (runStateT pu (st, sub)) 
 
-eval_es :: (Val v, LState st a, Subst sub) => st v -> sub v -> [ Expr ] -> Result [ v ]
+eval_es :: (Val v, LState st sto a, Subst sub) => st v -> sub v -> [ Expr ] -> Result [ v ]
 eval_es s sub ins = 
   let f e ac = ac >>= \ac' -> apply sub True e >>= \e' -> return (e':ac') in 
   let ins'   = foldr f (Just []) ins in
   maybe_to_result (fmap (fmap (eval s)) ins')
 
-unify_asrt :: (Val v, LState st a, Subst sub) => 
+unify_asrt :: (Val v, LState st sto a, Subst sub) => 
   PredUPTable a -> UPUnificationFunction st sub v a -> USAsrt a -> FProofUnifier st sub v ()
 -- General Assertion 
 unify_asrt p_tbl u_up (UGAsrt a ins outs) = 

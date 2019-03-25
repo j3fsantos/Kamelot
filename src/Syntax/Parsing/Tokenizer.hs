@@ -16,7 +16,7 @@ gilReservedNames =
     -- Logic Constructs
     "requires", "ensures", "assert", "predicate", 
     -- Separators
-    "(", ")", "{", "}", "]", "[" 
+    "(", ")", "{", "}", "]", "[", ","
   ]
 
 gilReservedOpNames = 
@@ -26,7 +26,11 @@ gilReservedOpNames =
     -- lists 
     "cons", "hd", "tl",
     -- (in)equalities 
-    "=", "!=", "<", ">", ">=", "<=", 
+    "=", "!=", "<", ">", ">=", "<=", "==", 
+    -- strings 
+    "<s", "<=s",
+    -- sets 
+    "in", "sub", 
     -- logic 
     "and", "or", "not" 
     -- 
@@ -63,4 +67,7 @@ reservedOp = Token.reservedOp gilLexer
 
 parens     :: Parser a -> Parser a 
 parens     = Token.parens gilLexer
+
+whiteSpace :: Parser () 
+whiteSpace = Token.whiteSpace gilLexer
 
